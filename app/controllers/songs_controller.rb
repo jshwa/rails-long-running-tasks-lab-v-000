@@ -48,8 +48,8 @@ class SongsController < ApplicationController
 
   def upload
     CSV.foreach(params["file"].path, headers: true) do |song|
-      song = Song.create(title: song[0], artist_name: song[1])
-      song.create_artist(name: song[1])
+      song = Song.create(title: song[0])
+      song.artist_name = Artist.find_or_create(name: song[1])
     end
     redirect_to songs_path
   end
